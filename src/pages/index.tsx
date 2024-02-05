@@ -12,7 +12,7 @@ const initialHistory = [Array(9).fill(null)];
 export default function Home() {
   const [history, setHistory] = useState(initialHistory);
   const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = currentMove % 2 === 0; // even number is X's turn
+  const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares: any) {
@@ -28,15 +28,13 @@ export default function Home() {
 
   return (
     <main>
-      <div className="h-[90vh] flex justify-center items-center">
-        <div>
-          <Board
-            xIsNext={xIsNext}
-            squares={currentSquares}
-            onPlay={handlePlay}
-            resetBoard={resetBoard}
-          />
-        </div>
+      <div className="h-[100vh] bg-slate-700 flex justify-center items-center">
+        <Board
+          xIsNext={xIsNext}
+          squares={currentSquares}
+          onPlay={handlePlay}
+          resetBoard={resetBoard}
+        />
       </div>
     </main>
   );

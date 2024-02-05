@@ -4,10 +4,10 @@ import PlayerX from "./PlayerX";
 import { Square } from "./Square";
 import { winStrategies } from "@/services/helper";
 import useRoundStore from "@/hooks/useRoundHandler";
+import { WinnerModal } from "./Modal";
 
 export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
-  const { getRounds, getCurrentRound, setRounds } = useRoundStore();
-
+  const { getCurrentRound, setRounds } = useRoundStore();
   const winner = calculateWinner(squares);
 
   function calculateWinner(squares: any) {
@@ -27,10 +27,9 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
   }
 
   function squareClickHandler(i: any) {
-    const fillAllSquares = squares[i];
-
+    const filledSquare = squares[i];
     return () => {
-      if (winner || fillAllSquares) {
+      if (winner || filledSquare) {
         return;
       }
 
@@ -51,39 +50,40 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
   }, [winner]);
 
   return (
-    <div className="space-y-10 p-10 bg-[#EEEDEB] rounded-xl border-2 shadow-lg">
-      <p className="text-lg text-center font-bold">
-        Round: {getCurrentRound()} of 5
-      </p>
-      {winner
-        ? renderTitle("Winner", winner === "X" ? <PlayerX /> : <PlayerO />)
-        : renderTitle("Next Turn", xIsNext ? <PlayerX /> : <PlayerO />)}
-      <div className="flex flex-col items-center gap-3">
-        <div className="flex gap-3">
-          <Square value={squares[0]} onSquareClick={squareClickHandler(0)} />
-          <Square value={squares[1]} onSquareClick={squareClickHandler(1)} />
-          <Square value={squares[2]} onSquareClick={squareClickHandler(2)} />
+    <>
+      <div className="space-y-10 p-16 bg-[#EEEDEB] rounded-xl border-2 shadow-lg">
+        <p className="text-lg text-center font-bold">
+          Round: {getCurrentRound() + 1} of 5
+        </p>
+        {winner
+          ? renderTitle("Winner", winner === "X" ? <PlayerX /> : <PlayerO />)
+          : renderTitle("Next Turn", xIsNext ? <PlayerX /> : <PlayerO />)}
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex gap-3">
+            <Square value={squares[0]} onSquareClick={squareClickHandler(0)} />
+            <Square value={squares[1]} onSquareClick={squareClickHandler(1)} />
+            <Square value={squares[2]} onSquareClick={squareClickHandler(2)} />
+          </div>
+          <div className="flex gap-3">
+            <Square value={squares[3]} onSquareClick={squareClickHandler(3)} />
+            <Square value={squares[4]} onSquareClick={squareClickHandler(4)} />
+            <Square value={squares[5]} onSquareClick={squareClickHandler(5)} />
+          </div>
+          <div className="flex gap-3">
+            <Square value={squares[6]} onSquareClick={squareClickHandler(6)} />
+            <Square value={squares[7]} onSquareClick={squareClickHandler(7)} />
+            <Square value={squares[8]} onSquareClick={squareClickHandler(8)} />
+          </div>
         </div>
-        <div className="flex gap-3">
-          <Square value={squares[3]} onSquareClick={squareClickHandler(3)} />
-          <Square value={squares[4]} onSquareClick={squareClickHandler(4)} />
-          <Square value={squares[5]} onSquareClick={squareClickHandler(5)} />
-        </div>
-        <div className="flex gap-3">
-          <Square value={squares[6]} onSquareClick={squareClickHandler(6)} />
-          <Square value={squares[7]} onSquareClick={squareClickHandler(7)} />
-          <Square value={squares[8]} onSquareClick={squareClickHandler(8)} />
-        </div>
-      </div>
-      {winner ? (
         <button
-          className="p-3 bg-blue-700 rounded-md text-white"
+          className="p-3 bg-[#0C2D57] active:bg-[#0c4857] rounded-md text-white"
           onClick={resetBoard}
         >
-          Next Round
+          {winner ? "Next Round" : "Reset"}
         </button>
-      ) : null}
-    </div>
+      </div>
+      <WinnerModal isOpen={false} close={() => {}} />
+    </>
   );
 
   function renderTitle(title: string, children: ReactElement) {
