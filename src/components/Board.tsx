@@ -10,8 +10,13 @@ import { storeRound } from "@/api/store-round";
 
 export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
   const [ultimateWinner, setUltimateWinner] = useState("");
-  const { getAllRounds, getUltimateWinner, getCurrentRound, setRounds } =
-    useRoundStore();
+  const {
+    getAllRounds,
+    getUltimateWinner,
+    getCurrentRound,
+    setRounds,
+    clearStore,
+  } = useRoundStore();
   const roundWinner = calculateWinner(squares);
 
   function calculateWinner(squares: any) {
@@ -52,7 +57,9 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
       setRounds({ round: getCurrentRound() + 1, winner: roundWinner });
 
       if (getCurrentRound() === MAX_ROUNDS) {
-        storeRound(getAllRounds(), getUltimateWinner());
+        storeRound(getAllRounds(), getUltimateWinner()).then((_: any) =>
+          clearStore()
+        );
         setUltimateWinner(getUltimateWinner());
       }
     }
@@ -94,7 +101,16 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
           {roundWinner ? "Next Round" : "Reset"}
         </button>
       </div>
-      <WinnerModal ultimateWinner={ultimateWinner} close={() => {}} />
+      <WinnerModal
+        ultimateWinner={ultimateWinner}
+        close={() => {
+          setUltimateWinner("");
+        }}
+        reset={() => {
+          setUltimateWinner("");
+          resetBoard();
+        }}
+      />
     </>
   );
 

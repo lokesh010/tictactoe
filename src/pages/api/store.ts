@@ -5,7 +5,10 @@ type Data = {
   message: string;
 };
 
-export default function handler(res: NextApiResponse<Data>) {
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
   setTimeout(() => {
     res.json({ message: "Results Saved" });
   }, 1000);
