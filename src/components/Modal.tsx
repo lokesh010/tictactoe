@@ -1,14 +1,16 @@
+import { MAX_ROUNDS } from "@/services/constants";
 import clsx from "clsx";
-import React from "react";
+import PlayerO from "./PlayerO";
+import PlayerX from "./PlayerX";
 
-export function WinnerModal({ isOpen, close }: any) {
+export function WinnerModal({ ultimateWinner, close }: any) {
   return (
     <div
       id="default-modal"
       tabIndex={-1}
-      // aria-hidden="true"
+      aria-hidden={ultimateWinner}
       className={clsx(
-        isOpen ? "flex" : "hidden",
+        ultimateWinner ? "flex" : "hidden",
         "backdrop-blur-sm flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       )}
     >
@@ -18,44 +20,18 @@ export function WinnerModal({ isOpen, close }: any) {
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Terms of Service
+              We have a Winner
             </h3>
-            <button
-              type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-hide="default-modal"
-            >
-              <svg
-                className="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
           </div>
           {/* Modal body */}
           <div className="p-4 md:p-5 space-y-4">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new
-              consumer privacy laws for its citizens, companies around the world
-              are updating their terms of service agreements to comply.
-            </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              The European Union’s General Data Protection Regulation (G.D.P.R.)
-              goes into effect on May 25 and is meant to ensure a common set of
-              data rights in the European Union. It requires organizations to
-              notify users as soon as possible of high-risk data breaches that
-              could personally affect them.
+            <div className="flex justify-center">
+              <div className="h-[200px] w-[200px]">
+                {ultimateWinner === "X" ? <PlayerX animate /> : <PlayerO />}
+              </div>
+            </div>
+            <p className="text-white text-center">
+              {ultimateWinner} won in a game of {MAX_ROUNDS} rounds
             </p>
           </div>
           {/* Modal footer */}

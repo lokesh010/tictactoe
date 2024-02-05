@@ -2,13 +2,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  name: string;
+  message: string;
 };
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  console.log(req.method);
-  res.status(200).json({ name: "Saved Succesfully" });
+export default function handler(res: NextApiResponse<Data>) {
+  setTimeout(() => {
+    res.json({ message: "Results Saved" });
+  }, 1000);
 }
