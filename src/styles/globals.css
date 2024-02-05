@@ -8,26 +8,32 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+/* cross animation */
+@keyframes drawX {
+  from {
+    stroke-dasharray: 0 200;
+  }
+  to {
+    stroke-dasharray: 200 0;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.animated-svg line {
+  stroke-dasharray: 0 200;
+  animation: drawX 2s ease forwards;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* circle animation */
+@keyframes drawCircle {
+  from {
+    stroke-dasharray: 0 200;
   }
+  to {
+    stroke-dasharray: 200 0;
+  }
+}
+
+.animated-circle {
+  stroke-dasharray: 0 200;
+  animation: drawCircle 2s ease forwards;
 }
