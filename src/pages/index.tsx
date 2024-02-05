@@ -7,44 +7,21 @@ export default function Home() {
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
-  console.log(history);
-
   function handlePlay(nextSquares: any) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   }
 
-  function jumpTo(nextMove: any) {
-    setCurrentMove(nextMove);
-  }
-
-  const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = "Go to move #" + move;
-    } else {
-      description = "Go to game start";
-    }
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
-    );
-  });
-
   return (
     <main>
-      <div className="game">
-        <div className="game-board">
+      <div className="h-[90vh] flex justify-center items-center">
+        <div>
           <Board
             xIsNext={xIsNext}
             squares={currentSquares}
             onPlay={handlePlay}
           />
-        </div>
-        <div className="game-info">
-          <ol>{moves}</ol>
         </div>
       </div>
     </main>

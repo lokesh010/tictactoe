@@ -1,10 +1,10 @@
 import React from "react";
 
-function PlayerO() {
+function PlayerO(props: any) {
   return (
     <svg
       key={"O"}
-      className="animated-circle"
+      className={props?.animate ? "animated-circle" : ""}
       width="100%"
       height="100%"
       xmlns="http://www.w3.org/2000/svg"

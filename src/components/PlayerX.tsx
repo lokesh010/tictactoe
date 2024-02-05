@@ -1,10 +1,10 @@
 import React from "react";
 
-function PlayerX() {
+function PlayerX(props: any) {
   return (
     <svg
       key={"X"}
-      className="animated-svg"
+      className={props?.animate ? "animated-svg" : ""}
       width="100%"
       height="100%"
       xmlns="http://www.w3.org/2000/svg"
