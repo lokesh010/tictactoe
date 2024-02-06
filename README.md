@@ -32,7 +32,7 @@ Tic Tac Toe is a simple web-based game built with Next.js. It allows users to pl
 2. Navigate to the project directory:
 
    ```bash
-   cd project
+   cd tictactoe
 
    ```
 
@@ -58,14 +58,7 @@ Tic Tac Toe is a simple web-based game built with Next.js. It allows users to pl
 
    ```
 
-3. Navigate to the project directory:
-
-   ```bash
-   cd project
-
-   ```
-
-4. Install dependencies:
+3. Install dependencies:
 
    ```bash
    yarn
