@@ -1,0 +1,52 @@
+name: Build and Deploy to Development
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    env:
+      NEXT_PUBLIC_BASE_API_URL: https://api.dev.example.com/v1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set environment variables for build
+        # if necessary
+        run: |
+          echo "NEXT_PUBLIC_BASE_API_URL=${NEXT_PUBLIC_BASE_API_URL}" >> .env
+
+      - name: Build
+        run: npm run build
+
+      - name: Unit Test
+        run: npm run test
+
+      - name: E2E Test
+        run: npm run test:headless-dev
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+      - name: Set environment variables for deployment
+        run: |
+          echo "NEXT_PUBLIC_BASE_API_URL=${{ secrets.NEXT_PUBLIC_BASE_API_URL }}" >> .env.dev
+
+      - name: Deploy to development
+        run: |
+          pm2 restart npm --name "tictactoe-dev:3000" -- start

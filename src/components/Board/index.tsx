@@ -46,23 +46,20 @@ function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
             )
           : renderTitle("Next Turn", xIsNext ? <PlayerX /> : <PlayerO />)}
         <div className="flex flex-col items-center gap-3">
-          <div className="flex gap-3">
-            <Square value={squares[0]} onSquareClick={squareClickHandler(0)} />
-            <Square value={squares[1]} onSquareClick={squareClickHandler(1)} />
-            <Square value={squares[2]} onSquareClick={squareClickHandler(2)} />
-          </div>
-          <div className="flex gap-3">
-            <Square value={squares[3]} onSquareClick={squareClickHandler(3)} />
-            <Square value={squares[4]} onSquareClick={squareClickHandler(4)} />
-            <Square value={squares[5]} onSquareClick={squareClickHandler(5)} />
-          </div>
-          <div className="flex gap-3">
-            <Square value={squares[6]} onSquareClick={squareClickHandler(6)} />
-            <Square value={squares[7]} onSquareClick={squareClickHandler(7)} />
-            <Square value={squares[8]} onSquareClick={squareClickHandler(8)} />
+          <div className="grid grid-cols-3 gap-3">
+            {Array(9)
+              .fill(null)
+              .map((_, i) => (
+                <Square
+                  position={i}
+                  value={squares[i]}
+                  onSquareClick={squareClickHandler(i)}
+                />
+              ))}
           </div>
         </div>
         <button
+          data-testid="reset-btn"
           aria-label={roundWinner ? "Start Next Round" : "Reset Board"}
           className="p-3 bg-secondary active:bg-[#0c4857] rounded-md text-white"
           onClick={resetBoard}

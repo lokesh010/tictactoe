@@ -4,14 +4,15 @@ import PlayerO from "./PlayerO";
 import PlayerX from "./PlayerX";
 
 interface IProps {
+  position: number;
   value: SquareType;
   onSquareClick: () => void;
 }
 
-function Square({ value, onSquareClick }: IProps) {
+function Square({ position, value, onSquareClick }: IProps) {
   return (
     <div
-      data-testid="square"
+      data-testid={"square" + (value || position)}
       className="p-1 border-[#944E63] border-2 w-[60px] h-[60px] hover:bg-gray-300 rounded-lg cursor-pointer"
       onClick={onSquareClick}
     >
