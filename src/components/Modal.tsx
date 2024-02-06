@@ -15,7 +15,6 @@ export function WinnerModal({ ultimateWinner, cancel, reset }: any) {
       )}
     >
       <div className="relative p-4 w-full max-w-2xl max-h-full">
-        {/* Modal content */}
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">

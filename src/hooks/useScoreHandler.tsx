@@ -2,7 +2,7 @@ import { storeRoundApi } from "@/api/store-round";
 import { MAX_ROUNDS, PLAYERO, PLAYERX } from "@/services/constants";
 import { winStrategies } from "@/services/helper";
 import { useEffect, useState } from "react";
-import useRoundStore from "./useRoundHandler";
+import useRoundHandler from "./useRoundHandler";
 import { SquareType } from "@/services/types";
 
 interface IProps {
@@ -21,7 +21,7 @@ function useScoreHandler({ squares, xIsNext, onPlay }: IProps) {
     getPreviousRound,
     setRounds,
     clearStore,
-  } = useRoundStore();
+  } = useRoundHandler();
 
   function calculateWinner(squares: any) {
     for (let i = 0; i < winStrategies.length; i++) {

@@ -2,8 +2,17 @@ import { MAX_ROUNDS } from "@/services/constants";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import Board from "../Board";
 
+// Mock the useRoundHandler hook
+jest.mock("@/hooks/useRoundHandler", () => ({
+  __esModule: true,
+  default: () => ({
+    getPreviousRound: () => 1, // Mock the getPreviousRound function to return a specific value
+    setRounds: () => {},
+  }),
+}));
+
 describe("Board Component", () => {
-  test("renders board with correct round information", async () => {
+  test("renders correct round number previous + 1", async () => {
     await act(async () => {
       const { default: Board } = await import("./index"); // wait untill Board is loaded
       render(
@@ -16,13 +25,14 @@ describe("Board Component", () => {
       );
     });
 
-    const roundInfoElement = screen.getByText(`Round: 1 of ${MAX_ROUNDS}`);
+    // Round: 2 because getpreviousRound is 1 in mock hook
+    const roundInfoElement = screen.getByText(`Round: 2 of ${MAX_ROUNDS}`);
     expect(roundInfoElement).toBeInTheDocument();
   });
 
   test("renders 'Reset' when no winner", async () => {
     await act(async () => {
-      const { default: Board } = await import("./index"); // wait untill Board is loaded
+      const { default: Board } = await import("./index");
       render(
         <Board
           xIsNext={true}

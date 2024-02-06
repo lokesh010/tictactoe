@@ -1,7 +1,7 @@
 import { STORE_KEY } from "@/services/constants";
 import { Round } from "@/services/types";
 
-function useRoundStore() {
+function useRoundHandler() {
   function getAllRounds() {
     const rounds: Round[] = JSON.parse(localStorage.getItem(STORE_KEY) || "[]");
     return rounds;
@@ -49,4 +49,4 @@ function useRoundStore() {
   };
 }
 
-export default useRoundStore;
+export default useRoundHandler;

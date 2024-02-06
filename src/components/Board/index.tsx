@@ -1,4 +1,4 @@
-import useRoundStore from "@/hooks/useRoundHandler";
+import useRoundHandler from "@/hooks/useRoundHandler";
 import useScoreHandler from "@/hooks/useScoreHandler";
 import { MAX_ROUNDS, PLAYERX } from "@/services/constants";
 import { SquareType } from "@/services/types";
@@ -28,7 +28,7 @@ interface IProps {
 }
 
 function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
-  const { getPreviousRound } = useRoundStore();
+  const { getPreviousRound } = useRoundHandler();
   const currentRound = getPreviousRound() + 1;
   const { roundWinner, squareClickHandler, ultimateWinner, setUltimateWinner } =
     useScoreHandler({ squares, xIsNext, onPlay });
