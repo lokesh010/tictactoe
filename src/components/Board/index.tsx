@@ -21,6 +21,7 @@ const Square = dynamic(() => import("@/components/Square"), {
 });
 
 interface IProps {
+  key?: boolean;
   xIsNext: boolean;
   squares: SquareType[];
   onPlay: (squares: SquareType[]) => void;
@@ -51,6 +52,7 @@ function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
               .fill(null)
               .map((_, i) => (
                 <Square
+                  key={i}
                   position={i}
                   value={squares[i]}
                   onSquareClick={squareClickHandler(i)}
