@@ -58,12 +58,6 @@ Tic Tac Toe is a simple web-based game built with Next.js. It allows users to pl
 
    ```
 
-3. Install dependencies:
-
-   ```bash
-   yarn
-   ```
-
 ## Tests
 
 1. Unit Test
@@ -85,12 +79,12 @@ Tic Tac Toe is a simple web-based game built with Next.js. It allows users to pl
   ```
 - Development:
   ```bash
-    npm run test:headless-dev
+    yarn test:headless-dev
   ```
 - Stage:
 
   ```bash
-    npm run test:headless-stage
+    yarn test:headless-stage
 
   ```
 
