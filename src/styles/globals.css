@@ -1,39 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-/* cross animation */
-@keyframes drawX {
-  from {
-    stroke-dasharray: 0 200;
-  }
-  to {
-    stroke-dasharray: 200 0;
-  }
-}
-
-.animated-svg line {
-  stroke-dasharray: 0 200;
-  animation: drawX 2s ease forwards;
-}
-
-/* circle animation */
-@keyframes drawCircle {
-  from {
-    stroke-dasharray: 0 200;
-  }
-  to {
-    stroke-dasharray: 200 0;
-  }
-}
-
-.animated-circle {
-  stroke-dasharray: 0 200;
-  animation: drawCircle 2s ease forwards;
-}

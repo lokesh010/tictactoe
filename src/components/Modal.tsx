@@ -3,12 +3,12 @@ import clsx from "clsx";
 import PlayerO from "./PlayerO";
 import PlayerX from "./PlayerX";
 
-export function WinnerModal({ ultimateWinner, close, reset }: any) {
+export function WinnerModal({ ultimateWinner, cancel, reset }: any) {
   return (
     <div
-      id="default-modal"
-      tabIndex={-1}
-      aria-hidden={ultimateWinner}
+      aria-modal="true"
+      aria-labelledby="winner-modal-title"
+      aria-hidden={!ultimateWinner}
       className={clsx(
         ultimateWinner ? "flex" : "hidden",
         "backdrop-blur-sm flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -31,7 +31,7 @@ export function WinnerModal({ ultimateWinner, close, reset }: any) {
               </div>
             </div>
             <p className="text-white text-center">
-              '{ultimateWinner}' won in a game of {MAX_ROUNDS} rounds
+              &apos;{ultimateWinner}&apos; won in a game of {MAX_ROUNDS} rounds
             </p>
           </div>
           {/* Modal footer */}
@@ -45,7 +45,7 @@ export function WinnerModal({ ultimateWinner, close, reset }: any) {
               Reset
             </button>
             <button
-              onClick={() => close()}
+              onClick={() => cancel()}
               data-modal-hide="default-modal"
               type="button"
               className="ms-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"

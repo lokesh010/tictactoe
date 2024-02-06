@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { INIT_SQUARES } from "@/services/constants";
+import { SquareType } from "@/services/types";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 const Board = dynamic(
   () => import("@/components/Board").then((mod) => mod.Board),
   {
@@ -7,31 +9,27 @@ const Board = dynamic(
   }
 );
 
-const initialHistory = [Array(9).fill(null)];
-
 export default function Home() {
-  const [history, setHistory] = useState(initialHistory);
-  const [currentMove, setCurrentMove] = useState(0);
+  const [currentMove, setCurrentMove] = useState<number>(0);
   const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
+  const [squares, setSquares] = useState<SquareType[]>(INIT_SQUARES);
 
-  function handlePlay(nextSquares: any) {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-    setHistory(nextHistory);
-    setCurrentMove(nextHistory.length - 1);
+  function handlePlay(nextSquares: SquareType[]) {
+    setSquares(nextSquares);
+    setCurrentMove(currentMove + 1);
   }
 
   function resetBoard() {
     setCurrentMove(0);
-    setHistory(initialHistory);
+    setSquares(INIT_SQUARES);
   }
 
   return (
-    <main>
-      <div className="h-[100vh] bg-slate-700 flex justify-center items-center">
+    <main className="bg-slate-700">
+      <div className="container mx-auto px-4 min-h-[100vh] flex justify-center items-center">
         <Board
           xIsNext={xIsNext}
-          squares={currentSquares}
+          squares={squares}
           onPlay={handlePlay}
           resetBoard={resetBoard}
         />

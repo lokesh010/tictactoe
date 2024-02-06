@@ -1,80 +1,35 @@
-import { ReactElement, useEffect, useState } from "react";
+import useRoundStore from "@/hooks/useRoundHandler";
+import useScoreHandler from "@/hooks/useScoreHandler";
+import { MAX_ROUNDS, PLAYERX } from "@/services/constants";
+import { SquareType } from "@/services/types";
+import { WinnerModal } from "./Modal";
 import PlayerO from "./PlayerO";
 import PlayerX from "./PlayerX";
 import { Square } from "./Square";
-import { winStrategies } from "@/services/helper";
-import useRoundStore from "@/hooks/useRoundHandler";
-import { WinnerModal } from "./Modal";
-import { MAX_ROUNDS } from "@/services/constants";
-import { storeRound } from "@/api/store-round";
 
-export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
-  const [ultimateWinner, setUltimateWinner] = useState("");
-  const {
-    getAllRounds,
-    getUltimateWinner,
-    getCurrentRound,
-    setRounds,
-    clearStore,
-  } = useRoundStore();
-  const roundWinner = calculateWinner(squares);
+interface IProps {
+  xIsNext: boolean;
+  squares: SquareType[];
+  onPlay: (squares: SquareType[]) => void;
+  resetBoard: () => void;
+}
 
-  function calculateWinner(squares: any) {
-    const getKey = (el: any) => el?.type()?.key;
-
-    for (let i = 0; i < winStrategies.length; i++) {
-      const [a, b, c] = winStrategies[i];
-      const Akey = getKey(squares[a]);
-      const Bkey = getKey(squares[b]);
-      const Ckey = getKey(squares[c]);
-
-      if (Akey && Akey === Bkey && Akey === Ckey) {
-        return Akey;
-      }
-    }
-    return null;
-  }
-
-  function squareClickHandler(i: any) {
-    const filledSquare = squares[i];
-    return () => {
-      if (roundWinner || filledSquare) {
-        return;
-      }
-
-      const nextSquares = squares.slice();
-      if (xIsNext) {
-        nextSquares[i] = <PlayerX animate />;
-      } else {
-        nextSquares[i] = <PlayerO animate />;
-      }
-      onPlay(nextSquares);
-    };
-  }
-
-  useEffect(() => {
-    if (roundWinner) {
-      setRounds({ round: getCurrentRound() + 1, winner: roundWinner });
-
-      if (getCurrentRound() === MAX_ROUNDS) {
-        storeRound(getAllRounds(), getUltimateWinner()).then((_: any) =>
-          clearStore()
-        );
-        setUltimateWinner(getUltimateWinner());
-      }
-    }
-  }, [roundWinner]);
+export function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
+  const { getPreviousRound } = useRoundStore();
+  const currentRound = getPreviousRound() + 1;
+  const { roundWinner, squareClickHandler, ultimateWinner, setUltimateWinner } =
+    useScoreHandler({ squares, xIsNext, onPlay });
 
   return (
     <>
       <div className="space-y-10 p-16 bg-[#EEEDEB] rounded-xl border-2 shadow-lg">
         <p className="text-lg text-center font-bold">
-          Round: {getCurrentRound() + 1} of {MAX_ROUNDS}
+          Round: {currentRound} of {MAX_ROUNDS}
         </p>
         {roundWinner
           ? renderTitle(
               "Winner",
-              roundWinner === "X" ? <PlayerX /> : <PlayerO />
+              roundWinner === PLAYERX ? <PlayerX /> : <PlayerO />
             )
           : renderTitle("Next Turn", xIsNext ? <PlayerX /> : <PlayerO />)}
         <div className="flex flex-col items-center gap-3">
@@ -95,7 +50,8 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
           </div>
         </div>
         <button
-          className="p-3 bg-[#0C2D57] active:bg-[#0c4857] rounded-md text-white"
+          aria-label={roundWinner ? "Start Next Round" : "Reset Board"}
+          className="p-3 bg-secondary active:bg-[#0c4857] rounded-md text-white"
           onClick={resetBoard}
         >
           {roundWinner ? "Next Round" : "Reset"}
@@ -103,7 +59,7 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
       </div>
       <WinnerModal
         ultimateWinner={ultimateWinner}
-        close={() => {
+        cancel={() => {
           setUltimateWinner("");
         }}
         reset={() => {
@@ -114,7 +70,7 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: any) {
     </>
   );
 
-  function renderTitle(title: string, children: ReactElement) {
+  function renderTitle(title: string, children: JSX.Element) {
     return (
       <div className="flex gap-3 items-center text-center">
         <p className="font-bold text-lg">{title}:</p>
