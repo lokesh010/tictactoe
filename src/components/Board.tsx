@@ -2,10 +2,23 @@ import useRoundStore from "@/hooks/useRoundHandler";
 import useScoreHandler from "@/hooks/useScoreHandler";
 import { MAX_ROUNDS, PLAYERX } from "@/services/constants";
 import { SquareType } from "@/services/types";
-import { WinnerModal } from "./Modal";
-import PlayerO from "./PlayerO";
-import PlayerX from "./PlayerX";
-import { Square } from "./Square";
+import dynamic from "next/dynamic";
+
+const WinnerModal = dynamic(() => import("@/components/Modal"), {
+  ssr: false,
+});
+
+const PlayerX = dynamic(() => import("@/components/PlayerX"), {
+  ssr: false,
+});
+
+const PlayerO = dynamic(() => import("@/components/PlayerO"), {
+  ssr: false,
+});
+
+const Square = dynamic(() => import("@/components/Square"), {
+  ssr: false,
+});
 
 interface IProps {
   xIsNext: boolean;
@@ -14,7 +27,7 @@ interface IProps {
   resetBoard: () => void;
 }
 
-export function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
+function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
   const { getPreviousRound } = useRoundStore();
   const currentRound = getPreviousRound() + 1;
   const { roundWinner, squareClickHandler, ultimateWinner, setUltimateWinner } =
@@ -22,7 +35,7 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
 
   return (
     <>
-      <div className="space-y-10 p-16 bg-[#EEEDEB] rounded-xl border-2 shadow-lg">
+      <div className="animate-slideDown space-y-10 p-16 bg-[#EEEDEB] rounded-xl border-2 shadow-lg">
         <p className="text-lg text-center font-bold">
           Round: {currentRound} of {MAX_ROUNDS}
         </p>
@@ -57,16 +70,19 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
           {roundWinner ? "Next Round" : "Reset"}
         </button>
       </div>
-      <WinnerModal
-        ultimateWinner={ultimateWinner}
-        cancel={() => {
-          setUltimateWinner("");
-        }}
-        reset={() => {
-          setUltimateWinner("");
-          resetBoard();
-        }}
-      />
+      {/* to lazy load only after we get ultimate winner */}
+      {ultimateWinner ? (
+        <WinnerModal
+          ultimateWinner={ultimateWinner}
+          cancel={() => {
+            setUltimateWinner("");
+          }}
+          reset={() => {
+            setUltimateWinner("");
+            resetBoard();
+          }}
+        />
+      ) : null}
     </>
   );
 
@@ -74,8 +90,10 @@ export function Board({ xIsNext, squares, onPlay, resetBoard }: IProps) {
     return (
       <div className="flex gap-3 items-center text-center">
         <p className="font-bold text-lg">{title}:</p>
-        <div className="h-[40px] w-[40px]">{children}</div>
+        <div className="h-[40px] w-[40px] animate-pulse">{children}</div>
       </div>
     );
   }
 }
+
+export default Board;

@@ -13,6 +13,16 @@ const config: Config = {
         secondary: "#0C2D57",
       },
       keyframes: {
+        slideDown: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-20%)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
         drawX: {
           from: {
             "stroke-dasharray": "0 200",
@@ -31,6 +41,7 @@ const config: Config = {
         },
       },
       animation: {
+        slideDown: "slideDown 0.5s ease-out",
         drawX: "drawX 2s ease forwards",
         drawO: "drawO 2s ease forwards",
       },

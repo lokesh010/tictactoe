@@ -8,7 +8,7 @@ interface IProps {
   onSquareClick: () => void;
 }
 
-export function Square({ value, onSquareClick }: IProps) {
+function Square({ value, onSquareClick }: IProps) {
   return (
     <div
       className="p-1 border-[#944E63] border-2 w-[60px] h-[60px] hover:bg-gray-300 rounded-lg cursor-pointer"
@@ -22,3 +22,4 @@ export function Square({ value, onSquareClick }: IProps) {
     </div>
   );
 }
+export default Square;

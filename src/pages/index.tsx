@@ -2,12 +2,9 @@ import { INIT_SQUARES } from "@/services/constants";
 import { SquareType } from "@/services/types";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-const Board = dynamic(
-  () => import("@/components/Board").then((mod) => mod.Board),
-  {
-    ssr: false,
-  }
-);
+const Board = dynamic(() => import("@/components/Board"), {
+  ssr: false,
+});
 
 export default function Home() {
   const [currentMove, setCurrentMove] = useState<number>(0);
@@ -26,7 +23,7 @@ export default function Home() {
 
   return (
     <main className="bg-slate-700">
-      <div className="container mx-auto px-4 min-h-[100vh] flex justify-center items-center">
+      <div className="mx-auto px-4 min-h-[100vh] flex justify-center items-center">
         <Board
           xIsNext={xIsNext}
           squares={squares}
