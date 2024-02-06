@@ -1,40 +1,133 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tic Tac Toe
 
-## Getting Started
+Tic Tac Toe is a simple web-based game built with Next.js. It allows users to play the classic game of Tic Tac Toe against another player.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Tests](#tests)
+- [Deployment](#deployment)
+- [Code Structure and Functionality](#code-structure-and-functionality)
+  - [Components](#components)
+  - [Custom Hooks](#custom-hooks)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Play Tic Tac Toe against another player.
+- Support for Player X and Player O.
+- Keeps track of rounds and ultimate winner.
+- PWA (Progressive Web App) support for offline usage.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Installation
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+     git clone git@github.com:lokesh010/tictactoe.git
 
-## Learn More
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Navigate to the project directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cd project
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```
 
-## Deploy on Vercel
+3. Install dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   yarn
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Usage
+
+1. To start the development server, run:
+
+   ```bash
+   yarn dev
+
+   ```
+
+2. To build and start
+
+   ```bash
+     yarn build && yarn start
+
+   ```
+
+3. Navigate to the project directory:
+
+   ```bash
+   cd project
+
+   ```
+
+4. Install dependencies:
+
+   ```bash
+   yarn
+   ```
+
+## Tests
+
+1. Unit Test
+
+   To run unit tests, execute:
+
+   ```bash
+   yarn test
+
+   ```
+
+2. End-to-End Test
+
+   The E2E tests are run using Cypress in headless mode. There are separate scripts for running tests against different environments:
+
+- Local: (make sure local server is running)
+  ```bash
+    yarn test:headless-local
+  ```
+- Development:
+  ```bash
+    npm run test:headless-dev
+  ```
+- Stage:
+
+  ```bash
+    npm run test:headless-stage
+
+  ```
+
+## Deployment
+
+The project includes workflows for deploying to development and stage environments using GitHub Actions.
+
+### Development Deployment
+
+The development deployment workflow runs on every push to the `development` branch. It builds the project, runs unit tests, and performs end-to-end tests against the development environment. If all tests pass, it deploys the application to the development server.
+
+### Stage Deployment
+
+The stage deployment workflow runs on every push to the `stage` branch. Similar to the development deployment workflow, it builds the project, runs tests, and deploys the application to the stage server.
+
+## Code Structure and Functionality
+
+The codebase follows a modular structure and utilizes various Next.js features and hooks to build the Tic Tac Toe game.
+
+### Components
+
+- **Board**: The main component responsible for rendering the game board and handling player moves. It utilizes dynamic imports for lazy loading components like `WinnerModal`, `PlayerX`, `PlayerO`, and `Square`. The `useRoundHandler` and `useScoreHandler` custom hooks manage game state and logic.
+- **Square**: Represents each square in the Tic Tac Toe grid. Clicking on a square triggers the `squareClickHandler` function in the `Board` component.
+
+- **PlayerX, PlayerO**: Components for displaying the X and O symbols respectively.
+
+- **WinnerModal**: A modal component displayed when the game ends and announces the ultimate winner.
+
+### Custom Hooks
+
+- **useRoundHandler**: Manages round-related functionality such as retrieving previous rounds, determining the ultimate winner, and storing rounds in local storage.
+
+- **useScoreHandler**: Handles game logic including determining the round winner, processing square clicks, and managing the ultimate winner.
